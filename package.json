@@ -1,0 +1,31 @@
+{
+  "name": "typeorm-text-search",
+  "version": "1.0.0",
+  "description": "function to add text search by several columns for typeorm builder",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepublish:npm": "rimraf dist && npm run build",
+    "publish:npm": "npm publish --access public",
+    "test": "jest --config jest.json",
+    "test:cov": "jest --config jest.json --coverage"
+  },
+  "keywords": [
+    "typeorm",
+    "text search",
+    "search"
+  ],
+  "author": "Yurii Myrosh",
+  "license": "MIT",
+  "peerDependencies": {
+    "typeorm": "^0.2.25"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.7",
+    "jest": "^26.1.0",
+    "ts-jest": "^26.1.4",
+    "ts-node": "^8.10.2",
+    "typeorm": "^0.2.25",
+    "typescript": "^3.9.7"
+  }
+}
