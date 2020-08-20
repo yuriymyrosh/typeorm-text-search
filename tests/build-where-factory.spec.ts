@@ -1,4 +1,4 @@
-import { buildWhereFactory } from '../src/build-where-factory';
+import { buildTermFactory } from '../src/build-term-factory';
 
 
 const builderMock = {
@@ -17,7 +17,7 @@ describe('buildWhereFactory', () => {
   });
 
   it('should buildWhereFactory', () => {
-    const res = buildWhereFactory('term', ['name']);
+    const res = buildTermFactory('term', ['name']);
     res(builderMock);
 
     expect(orWhereSpy).toBeCalledTimes(1);
@@ -26,8 +26,8 @@ describe('buildWhereFactory', () => {
     });
   });
 
-  it('should lower term when buildWhereFactory', () => {
-    const res = buildWhereFactory('UPPER', ['name']);
+  it('should lower term when buildTermFactory', () => {
+    const res = buildTermFactory('UPPER', ['name']);
     res(builderMock);
 
     expect(orWhereSpy).toBeCalledTimes(1);
@@ -38,7 +38,7 @@ describe('buildWhereFactory', () => {
 
   it('should call orWhere count of fields times', () => {
     const fields = ['name', 'slug', 'text'];
-    const res = buildWhereFactory('UPPER', fields);
+    const res = buildTermFactory('UPPER', fields);
     res(builderMock);
 
     expect(orWhereSpy).toBeCalledTimes(fields.length);

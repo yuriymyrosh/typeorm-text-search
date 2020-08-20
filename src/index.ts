@@ -1,7 +1,7 @@
 import { SelectQueryBuilder, Brackets } from 'typeorm';
-import { buildWhereFactory } from './build-where-factory';
+import { buildTermFactory } from './build-term-factory';
 import { DELIMITER, DOUBLE_QUOTE } from './constants';
-import { buildOrWhereFactory } from './build-or-where-factory';
+import { buildTokensFactory } from './build-tokens-factory';
 
 export function textSearchByFields<T>(
   builder: SelectQueryBuilder<T>,
@@ -9,12 +9,11 @@ export function textSearchByFields<T>(
   fields: string[],
 ) {
   if (isWholePhraseSearch(search)) {
-    const token = search.slice(1, -1);
-    const brackets = new Brackets(buildWhereFactory<T>(token, fields));
-    builder.andWhere(brackets);
+    const term = search.slice(1, -1);
+    builder.andWhere(new Brackets(buildTermFactory<T>(term, fields)));
   } else {
-    const orBrackets = prepareTokensSearches(search, fields);
-    builder.andWhere(new Brackets(buildOrWhereFactory<T>(orBrackets)));
+    const tokens = prepareTokens<T>(search);
+    builder.andWhere(new Brackets(buildTokensFactory<T>(tokens, fields)));
   }
 }
 
@@ -22,8 +21,6 @@ function isWholePhraseSearch(search: string) {
   return search.startsWith(DOUBLE_QUOTE) && search.endsWith(DOUBLE_QUOTE);
 }
 
-function prepareTokensSearches(search: string, fields: string[]) {
-  const tokens = search.split(DELIMITER);
-
-  return tokens.map((token) => new Brackets(buildWhereFactory(token, fields)));
+function prepareTokens<T>(search: string) {
+  return search.split(DELIMITER);
 }

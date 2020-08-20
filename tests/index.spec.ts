@@ -1,6 +1,6 @@
 import { textSearchByFields } from '../src';
-import { buildOrWhereFactory } from '../src/build-or-where-factory';
-jest.mock('../src/build-or-where-factory');
+import { buildTokensFactory } from '../src/build-tokens-factory';
+jest.mock('../src/build-tokens-factory');
 
 describe('textSearchByFields', () => {
   let orWhereSpy: any;
@@ -19,7 +19,7 @@ describe('textSearchByFields', () => {
     orWhereSpy = spyOn(builderMock, 'orWhere').and.callThrough();
     andWhereSpy = spyOn(builderMock, 'andWhere').and.callThrough();
 
-    (buildOrWhereFactory as jest.Mock).mockClear();
+    (buildTokensFactory as jest.Mock).mockClear();
   });
 
   it('should call andWhere', () => {
@@ -35,8 +35,8 @@ describe('textSearchByFields', () => {
 
     textSearchByFields(builderMock, search, ['some']);
 
-    expect(buildOrWhereFactory).toHaveBeenCalled();
-    expect((buildOrWhereFactory as jest.Mock).mock.calls[0][0].length).toBe(3);
+    expect(buildTokensFactory).toHaveBeenCalled();
+    expect((buildTokensFactory as jest.Mock).mock.calls[0][0].length).toBe(3);
   });
 
   it('should call orWhere TOKENS time (5)', () => {
@@ -44,14 +44,14 @@ describe('textSearchByFields', () => {
 
     textSearchByFields(builderMock, search, ['some']);
 
-    expect(buildOrWhereFactory).toHaveBeenCalled();
-    expect((buildOrWhereFactory as jest.Mock).mock.calls[0][0].length).toBe(5);
+    expect(buildTokensFactory).toHaveBeenCalled();
+    expect((buildTokensFactory as jest.Mock).mock.calls[0][0].length).toBe(5);
   });
 
   it("shouldn't call orWhereFactory when whole term search", () => {
     const search = '"test search"';
 
     textSearchByFields(builderMock, search, ['some']);
-    expect(buildOrWhereFactory).not.toHaveBeenCalled();
+    expect(buildTokensFactory).not.toHaveBeenCalled();
   });
 });

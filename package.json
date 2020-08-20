@@ -1,6 +1,6 @@
 {
   "name": "typeorm-text-search",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "function to add text search by several columns for typeorm builder",
   "repository": {
     "url": "git@github.com:Konro1/typeorm-text-search.git"

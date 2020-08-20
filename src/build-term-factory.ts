@@ -1,6 +1,6 @@
 import { SelectQueryBuilder } from 'typeorm';
 
-export const buildWhereFactory = <T>(term: string, fields: string[]) => {
+export const buildTermFactory = <T>(term: string, fields: string[]) => {
   return (qb: SelectQueryBuilder<T>) => {
     fields.forEach((field) => {
       qb.orWhere(`LOWER(${field}) LIKE :search`, {
